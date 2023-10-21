@@ -10,16 +10,16 @@ public class Subtask extends Task {
         return "Subtask{" +
                 "name='" + getName() + '\'' +
                 ", description='" + getDescription() + '\'' +
-                ", taskId=" + getTaskId() +
+                ", id=" + getId() +
                 ", statusOfTask='" + getStatusOfTask() + '\'' +
                 ", epicId=" + epicId +
                 '}';
     }
 
-    public Subtask(String name, String description, StatusOfTask statusOfTask, int epicId, int taskId) {
+    public Subtask(String name, String description, StatusOfTask statusOfTask, int epicId, int id) {
         super(name, description, statusOfTask);
         this.epicId = epicId;
-        this.setTaskId(taskId);
+        this.setId(id);
     }
 
     public Subtask(String name, String description, StatusOfTask statusOfTask, int epicId) {

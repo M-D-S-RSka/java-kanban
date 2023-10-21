@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Task {
 
-    protected Integer taskId;
+    protected Integer id;
     protected String name;
     protected StatusOfTask statusOfTask;
     protected String description;
@@ -13,7 +13,7 @@ public class Task {
         this.name = name;
         this.statusOfTask = statusOfTask;
         this.description = description;
-        this.taskId = taskId;
+        this.id = taskId;
     }
 
     public Task(String name, String description, StatusOfTask statusOfTask) {
@@ -31,13 +31,13 @@ public class Task {
             return false;
         }
         Task task = (Task) object;
-        return Objects.equals(taskId, task.taskId) && Objects.equals(name, task.name)
+        return Objects.equals(id, task.id) && Objects.equals(name, task.name)
                 && Objects.equals(description, task.description) && Objects.equals(statusOfTask, task.statusOfTask);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, taskId, statusOfTask);
+        return Objects.hash(name, description, id, statusOfTask);
     }
 
     @Override
@@ -45,21 +45,25 @@ public class Task {
         return "Task{" +
                 "name ='" + name + '\'' +
                 ", description ='" + description + '\'' +
-                ", taskId =" + taskId +
+                ", id =" + id +
                 ", statusOfTask ='" + statusOfTask + '\'' +
                 '}';
     }
 
-    public Integer getTaskId() {
-        return taskId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public StatusOfTask getStatusOfTask() {
@@ -72,5 +76,9 @@ public class Task {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

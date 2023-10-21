@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Epic extends Task {
-    protected ArrayList<Integer> subtaskList = new ArrayList<>();
+    protected ArrayList<Subtask> subtaskIds = new ArrayList<>();
 
     public Epic(String name, String description) {
         super(name, description, StatusOfTask.valueOf("NEW"));
     }
 
-    public Epic(String name, String description, int taskId) {
+    public Epic(String name, String description, int id) {
         super(name, description, StatusOfTask.valueOf("NEW"));
-        this.setTaskId(taskId);
+        this.setId(id);
     }
 
     @Override
@@ -24,12 +24,12 @@ public class Epic extends Task {
             return false;
         }
         Epic epic = (Epic) object;
-        return Objects.equals(subtaskList, epic.subtaskList);
+        return Objects.equals(subtaskIds, epic.subtaskIds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subtaskList);
+        return Objects.hash(subtaskIds);
     }
 
     @Override
@@ -37,40 +37,39 @@ public class Epic extends Task {
         return "Epic{" +
                 "name='" + getName() + '\'' +
                 ", description='" + getDescription() + '\'' +
-                ", taskId=" + getTaskId() +
+                ", id=" + getId() +
                 ", statusOfTask='" + getStatusOfTask() + '\'' +
-                ", subtaskList=" + subtaskList +
+                ", subtaskList=" + subtaskIds +
                 '}';
     }
 
-    public ArrayList<Integer> getSubtaskList() {
-        return subtaskList;
+    public ArrayList<Subtask> getSubtaskIds() {
+        return subtaskIds;
     }
 
-    public void checkSubtask(Subtask task) {
-        if (task != null) {
-            if (task.getEpicId() == this.getTaskId()) {
-                if (!subtaskList.contains(task.getTaskId())) subtaskList.add(task.getTaskId());
+    public void addSubtaskId(Subtask id) {
+        if (id != null) {
+            if (!subtaskIds.contains(id)) {
+                subtaskIds.add(id);
             }
         }
-
     }
 
-    public void removeSubTask(Integer subtaskId) {
+    public void removeSubTask(int subtaskId) {
         int removeIndex = -1;
-        if (!(subtaskList.isEmpty())) {
-            for (Integer taskNum : subtaskList) {
+        if (!(subtaskIds.isEmpty())) {
+            for (Subtask taskNum : subtaskIds) {
                 if (taskNum.equals(subtaskId)) {
-                    removeIndex = subtaskList.indexOf(taskNum);
+                    removeIndex = subtaskIds.indexOf(taskNum);
                 }
             }
         }
         if (removeIndex != -1) {
-            subtaskList.remove(removeIndex);
+            subtaskIds.remove(removeIndex);
         }
     }
 
     public void clearSubtask() {
-        subtaskList.clear();
+        subtaskIds.clear();
     }
 }
