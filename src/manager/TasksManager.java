@@ -7,12 +7,14 @@ import tasks.Task;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public class TasksManager {
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
+    private final Map<Integer, Subtask> subtasks = new HashMap<>();
 
     private Integer generatedTaskId = 1;
 
@@ -68,15 +70,15 @@ public class TasksManager {
         epics.put(task.getId(), task);
     }
 
-    public ArrayList<Task> getTasks() {
+    public List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
     }
 
-    public ArrayList<Epic> getEpics() {
+    public List<Epic> getEpics() {
         return new ArrayList<>(epics.values());
     }
 
-    public ArrayList<Subtask> getSubtasks() {
+    public List<Subtask> getSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
 
@@ -104,27 +106,21 @@ public class TasksManager {
         }
     }
 
-    public ArrayList<Subtask> getAllEpicSubtasks(int epicId) {
-        ArrayList<Subtask> listOfSubtask = new ArrayList<>();
-        if (epics.containsKey(epicId)) {
-            Epic epic = epics.get(epicId);
-            for (int i = 0; i < epic.getSubtaskIds().size(); i++) {
-                listOfSubtask.add(subtasks.get(epic.getSubtaskIds().get(i)));
-            }
-        }
-        return listOfSubtask;
+    public List<Subtask> getAllEpicSubtasks(int epicId) {
+        Epic epic = epics.get(epicId);
+        return epic.getSubtaskIds();
     }
 
     private void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
-        ArrayList<Subtask> subs = epic.getSubtaskIds();
+        List<Subtask> subs = epic.getSubtaskIds();
         if (subs.isEmpty()) {
             epic.setStatusOfTask(StatusOfTask.NEW);
             return;
         }
         StatusOfTask status = null;
-        for (Subtask id : subs) {
-            final Subtask subtask = subtasks.get(4);
+        for (Subtask task : subs) {
+            final Subtask subtask = subtasks.get(task.getId());
             if (status == null) {
                 status = subtask.getStatusOfTask();
                 continue;
