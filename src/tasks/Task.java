@@ -6,19 +6,19 @@ public class Task {
 
     protected Integer id;
     protected String name;
-    protected StatusOfTask statusOfTask;
+    protected TaskStatus status;
     protected String description;
 
-    public Task(String name, String description, StatusOfTask statusOfTask, Integer taskId) {
+    public Task(String name, String description, TaskStatus statusOfTask, Integer taskId) {
         this.name = name;
-        this.statusOfTask = statusOfTask;
+        this.status = statusOfTask;
         this.description = description;
         this.id = taskId;
     }
 
-    public Task(String name, String description, StatusOfTask statusOfTask) {
+    public Task(String name, String description, TaskStatus statusOfTask) {
         this.name = name;
-        this.statusOfTask = statusOfTask;
+        this.status = statusOfTask;
         this.description = description;
     }
 
@@ -32,12 +32,12 @@ public class Task {
         }
         Task task = (Task) object;
         return Objects.equals(id, task.id) && Objects.equals(name, task.name)
-                && Objects.equals(description, task.description) && Objects.equals(statusOfTask, task.statusOfTask);
+                && Objects.equals(description, task.description) && Objects.equals(status, task.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, id, statusOfTask);
+        return Objects.hash(name, description, id, status);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Task {
                 "name ='" + name + '\'' +
                 ", description ='" + description + '\'' +
                 ", id =" + id +
-                ", statusOfTask ='" + statusOfTask + '\'' +
+                ", statusOfTask ='" + status + '\'' +
                 '}';
     }
 
@@ -66,12 +66,12 @@ public class Task {
         this.name = name;
     }
 
-    public StatusOfTask getStatusOfTask() {
-        return statusOfTask;
+    public TaskStatus getStatus() {
+        return status;
     }
 
-    public void setStatusOfTask(StatusOfTask statusOfTask) {
-        this.statusOfTask = statusOfTask;
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 
     public String getDescription() {

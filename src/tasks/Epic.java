@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
-    protected List<Subtask> subtaskIds = new ArrayList<>();
+    protected List<Integer> subtaskIds = new ArrayList<>();
 
     public Epic(String name, String description) {
-        super(name, description, StatusOfTask.valueOf("NEW"));
+        super(name, description, TaskStatus.NEW);
     }
 
     public Epic(String name, String description, int id) {
-        super(name, description, StatusOfTask.valueOf("NEW"));
+        super(name, description, TaskStatus.NEW);
         this.setId(id);
     }
 
@@ -39,27 +39,29 @@ public class Epic extends Task {
                 "name='" + getName() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", id=" + getId() +
-                ", statusOfTask='" + getStatusOfTask() + '\'' +
+                ", statusOfTask='" + getStatus() + '\'' +
                 ", subtaskList=" + subtaskIds +
                 '}';
     }
 
-    public List<Subtask> getSubtaskIds() {
+    public List<Integer> getSubtaskIds() {
         return subtaskIds;
     }
 
-    public void addSubtaskId(Subtask id) {
-        if (id != null) {
-            if (!subtaskIds.contains(id)) {
-                subtaskIds.add(id);
+    public void addSubtaskId(Subtask task) {
+        if (task != null) {
+            if (task.getEpicId() == this.getId()) {
+                if (!subtaskIds.contains(task.getId())) {
+                    subtaskIds.add(task.getId());
+                }
             }
         }
     }
 
-    public void removeSubTask(int subtaskId) {
+    public void removeSubtask(Integer subtaskId) {
         int removeIndex = -1;
         if (!(subtaskIds.isEmpty())) {
-            for (Subtask taskNum : subtaskIds) {
+            for (Integer taskNum : subtaskIds) {
                 if (taskNum.equals(subtaskId)) {
                     removeIndex = subtaskIds.indexOf(taskNum);
                 }

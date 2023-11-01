@@ -11,18 +11,18 @@ public class Subtask extends Task {
                 "name='" + getName() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", id=" + getId() +
-                ", statusOfTask='" + getStatusOfTask() + '\'' +
+                ", statusOfTask='" + getStatus() + '\'' +
                 ", epicId=" + epicId +
                 '}';
     }
 
-    public Subtask(String name, String description, StatusOfTask statusOfTask, int epicId, int id) {
+    public Subtask(String name, String description, TaskStatus statusOfTask, int epicId, int id) {
         super(name, description, statusOfTask);
         this.epicId = epicId;
         this.setId(id);
     }
 
-    public Subtask(String name, String description, StatusOfTask statusOfTask, int epicId) {
+    public Subtask(String name, String description, TaskStatus statusOfTask, int epicId) {
         super(name, description, statusOfTask);
         this.epicId = epicId;
     }
