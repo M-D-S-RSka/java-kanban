@@ -9,7 +9,7 @@ public class Main {
 
         TaskManager manager = Managers.getDefault();
 
-        // Создание
+        System.out.println("\n" + "Создание");
         Task task1 = new Task("Task #1", "Task1 description", NEW);
         Task task2 = new Task("Task #2", "Task2 description", IN_PROGRESS);
         final int taskId1 = manager.createTask(task1);
@@ -47,6 +47,12 @@ public class Main {
         manager.getTaskById(taskId1);
         manager.getSubtaskById(subtaskId2);
 
+        System.out.println("\n" + "Удаление");
+        manager.deleteTaskById(taskId1);
+        manager.deleteSubtaskById(subtaskId3);
+        manager.deleteEpicById(epicId1);
+
+        System.out.println("\n" + "История");
         for (Task tasktask : manager.getHistory()) {
             System.out.println(tasktask);
         }
