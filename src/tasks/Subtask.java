@@ -5,17 +5,6 @@ import java.util.Objects;
 public class Subtask extends Task {
     protected int epicId;
 
-    @Override
-    public String toString() {
-        return "Subtask{" +
-                "name='" + getName() + '\'' +
-                ", description='" + getDescription() + '\'' +
-                ", id=" + getId() +
-                ", statusOfTask='" + getStatus() + '\'' +
-                ", epicId=" + epicId +
-                '}';
-    }
-
     public Subtask(String name, String description, TaskStatus statusOfTask, int epicId, int id) {
         super(name, description, statusOfTask);
         this.epicId = epicId;
@@ -25,6 +14,10 @@ public class Subtask extends Task {
     public Subtask(String name, String description, TaskStatus statusOfTask, int epicId) {
         super(name, description, statusOfTask);
         this.epicId = epicId;
+    }
+
+    public int getEpicId() {
+        return epicId;
     }
 
     @Override
@@ -47,7 +40,14 @@ public class Subtask extends Task {
         return epicId == subtask.epicId;
     }
 
-    public int getEpicId() {
-        return epicId;
+    @Override
+    public String toString() {
+        return "Subtask{" +
+                "name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", id=" + getId() +
+                ", statusOfTask='" + getStatus() + '\'' +
+                ", epicId=" + epicId +
+                '}';
     }
 }

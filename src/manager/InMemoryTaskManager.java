@@ -148,6 +148,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTaskById(int id) {
         tasks.remove(id);
+        historyManager.remove(id);
     }
 
     @Override
@@ -158,6 +159,7 @@ public class InMemoryTaskManager implements TaskManager {
                 subtasks.remove(subtaskId);
             }
             epics.remove(id);
+            historyManager.remove(id);
         }
     }
 
@@ -167,6 +169,7 @@ public class InMemoryTaskManager implements TaskManager {
             int epicId = subtasks.get(id).getEpicId();
             subtasks.remove(id);
             epics.get(epicId).removeSubtask(id);
+            historyManager.remove(id);
             updateEpicStatus(epicId);
         }
     }
@@ -192,15 +195,21 @@ public class InMemoryTaskManager implements TaskManager {
         return subtask;
     }
 
+    // Привет! с удалением всех элементов получается я сейчас усложнил, т к приходится перебирать весь список, возможно
+    // стоило в таком случае хранить историю в LinkedHashSet, которая поддерживает удаление всего за min время?
+    // Верно рассуждаю?) просто не наблюдаю данное условие в ТЗ - по удалению всей истории) в любом случае спасибо за
+    // дополнительный момент поразмышлять) Хороших выходных!
     @Override
     public void deleteAllTask() {
         tasks.clear();
+        historyManager.deleteAll();
     }
 
     @Override
     public void deleteAllEpic() {
         epics.clear();
         subtasks.clear();
+        historyManager.deleteAll();
     }
 
     @Override
@@ -212,6 +221,7 @@ public class InMemoryTaskManager implements TaskManager {
                 updateEpicStatus(epic.getId());
             }
         }
+        historyManager.deleteAll();
     }
 
     @Override
