@@ -8,18 +8,21 @@ public class Task {
     protected String name;
     protected TaskStatus status;
     protected String description;
+    protected Type type;
 
-    public Task(String name, String description, TaskStatus statusOfTask, Integer taskId) {
+    public Task(String name, String description, TaskStatus statusOfTask, Integer taskId, Type type) {
         this.name = name;
         this.status = statusOfTask;
         this.description = description;
         this.id = taskId;
+        this.type = type;
     }
 
-    public Task(String name, String description, TaskStatus statusOfTask) {
+    public Task(String name, String description, TaskStatus statusOfTask, Type type) {
         this.name = name;
         this.status = statusOfTask;
         this.description = description;
+        this.type = type;
     }
 
     @Override
@@ -80,5 +83,17 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public String taskToString() {
+        return getName() + ", " + getDescription() + ", " + getId() + ", " + getStatus() + ", " + getType();
     }
 }

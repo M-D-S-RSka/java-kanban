@@ -9,12 +9,12 @@ import java.util.Map;
 
 
 public class InMemoryTaskManager implements TaskManager {
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, Subtask> subtasks = new HashMap<>();
 
-    private Integer generatedTaskId = 1;
+    protected Integer generatedTaskId = 1;
 
     private int generateId() {
         return generatedTaskId++;
@@ -195,33 +195,25 @@ public class InMemoryTaskManager implements TaskManager {
         return subtask;
     }
 
-    // Привет! с удалением всех элементов получается я сейчас усложнил, т к приходится перебирать весь список, возможно
-    // стоило в таком случае хранить историю в LinkedHashSet, которая поддерживает удаление всего за min время?
-    // Верно рассуждаю?) просто не наблюдаю данное условие в ТЗ - по удалению всей истории) в любом случае спасибо за
-    // дополнительный момент поразмышлять) Хороших выходных!
     @Override
     public void deleteAllTask() {
-        tasks.clear();
-        historyManager.deleteAll();
+        for (Task task : tasks.values()) {
+            historyManager.remove(task.getId());
+        }
     }
 
     @Override
     public void deleteAllEpic() {
-        epics.clear();
-        subtasks.clear();
-        historyManager.deleteAll();
+        for (Epic epic : epics.values()) {
+            historyManager.remove(epic.getId());
+        }
     }
 
     @Override
     public void deleteAllSubtask() {
-        subtasks.clear();
-        if (!epics.isEmpty()) {
-            for (Epic epic : epics.values()) {
-                epic.clearSubtask();
-                updateEpicStatus(epic.getId());
-            }
+        for (Subtask subtask : subtasks.values()) {
+            historyManager.remove(subtask.getId());
         }
-        historyManager.deleteAll();
     }
 
     @Override

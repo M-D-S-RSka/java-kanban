@@ -2,6 +2,7 @@ import manager.*;
 import tasks.*;
 
 import static tasks.TaskStatus.*;
+import static tasks.Type.*;
 
 public class Main {
 
@@ -10,19 +11,20 @@ public class Main {
         TaskManager manager = Managers.getDefault();
 
         System.out.println("\n" + "Создание");
-        Task task1 = new Task("Task #1", "Task1 description", NEW);
-        Task task2 = new Task("Task #2", "Task2 description", IN_PROGRESS);
+        Task task1 = new Task("Task #1", "Task1 description", NEW, 1, TASK);
+        Task task2 = new Task("Task #2", "Task2 description", IN_PROGRESS, 2, TASK);
         final int taskId1 = manager.createTask(task1);
         final int taskId2 = manager.createTask(task2);
 
-        Epic epic1 = new Epic("Epic #1", "Epic1 description");
-        Epic epic2 = new Epic("Epic #2", "Epic2 description");
+
+        Epic epic1 = new Epic("Epic #1", "Epic1 description", NEW, 3, EPIC);
+        Epic epic2 = new Epic("Epic #2", "Epic2 description", NEW, 4, EPIC);
         final int epicId1 = manager.createEpic(epic1);
         final int epicId2 = manager.createEpic(epic2);
 
-        Subtask subtask1 = new Subtask("Subtask #1", "Subtask1 description", NEW, epicId1);
-        Subtask subtask2 = new Subtask("Subtask #2", "Subtask2 description", NEW, epicId2);
-        Subtask subtask3 = new Subtask("Subtask #3", "Subtask3 description", DONE, epicId2);
+        Subtask subtask1 = new Subtask("Subtask #1", "Subtask1 description", NEW, epicId1, 5, SUBTASK);
+        Subtask subtask2 = new Subtask("Subtask #2", "Subtask2 description", NEW, epicId2, 6, SUBTASK);
+        Subtask subtask3 = new Subtask("Subtask #3", "Subtask3 description", DONE, epicId2, 7, SUBTASK);
         final int subtaskId1 = manager.createSubtask(subtask1);
         final int subtaskId2 = manager.createSubtask(subtask2);
         final int subtaskId3 = manager.createSubtask(subtask3);

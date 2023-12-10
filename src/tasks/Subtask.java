@@ -5,14 +5,13 @@ import java.util.Objects;
 public class Subtask extends Task {
     protected int epicId;
 
-    public Subtask(String name, String description, TaskStatus statusOfTask, int epicId, int id) {
-        super(name, description, statusOfTask);
+    public Subtask(String name, String description, TaskStatus statusOfTask, int epicId, int id, Type type) {
+        super(name, description, statusOfTask, id, type);
         this.epicId = epicId;
-        this.setId(id);
     }
 
-    public Subtask(String name, String description, TaskStatus statusOfTask, int epicId) {
-        super(name, description, statusOfTask);
+    public Subtask(String name, String description, TaskStatus statusOfTask, int epicId, Type type) {
+        super(name, description, statusOfTask, type);
         this.epicId = epicId;
     }
 
@@ -41,7 +40,7 @@ public class Subtask extends Task {
     }
 
     @Override
-    public String toString() {
+    public String taskToString() {
         return "Subtask{" +
                 "name='" + getName() + '\'' +
                 ", description='" + getDescription() + '\'' +

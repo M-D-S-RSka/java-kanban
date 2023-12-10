@@ -11,9 +11,4 @@ public interface HistoryManager {
 
     void remove(int id);
 
-    default void deleteAll() {
-        while (!getHistory().isEmpty()) {
-            remove(getHistory().get(0).getId());
-        }
-    }
 }
