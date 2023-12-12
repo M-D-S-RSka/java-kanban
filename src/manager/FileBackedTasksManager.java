@@ -164,8 +164,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         fileBackedTasksManager.getSubtaskById(5);
 
         FileBackedTasksManager fileBackedTasksManager2 = loadFromFile(file);
-        Epic epic3 = new Epic("Epic #3", "Epic3 description", NEW, EPIC);
-        fileBackedTasksManager2.createEpic(epic3);
+
+        System.out.println(fileBackedTasksManager.getTasks().equals(fileBackedTasksManager2.getTasks()));
+        System.out.println(fileBackedTasksManager.getEpics().equals(fileBackedTasksManager2.getEpics()));
+        System.out.println(fileBackedTasksManager.getSubtasks().equals(fileBackedTasksManager2.getSubtasks()));
+        System.out.println(fileBackedTasksManager.historyManager.getHistory()
+                .equals(fileBackedTasksManager2.historyManager.getHistory()));
     }
 
     @Override
