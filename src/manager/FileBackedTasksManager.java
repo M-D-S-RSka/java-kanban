@@ -100,6 +100,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                     } else if (task.getType() == SUBTASK) {
                         fileBackedTasksManager.subtasks.put(task.getId(), (Subtask) task);
+                        Epic epic = fileBackedTasksManager.epics.get(((Subtask) task).getEpicId());
+                        List<Integer> list = epic.getSubtaskIds();
+                        list.add(task.getId());
                     }
                 }
             }
@@ -127,10 +130,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         for (Task task : tasks.values()) {
             allTasks.add(task);
         }
-        for (Task task : subtasks.values()) {
+        for (Task task : epics.values()) {
             allTasks.add(task);
         }
-        for (Task task : epics.values()) {
+        for (Task task : subtasks.values()) {
             allTasks.add(task);
         }
         return allTasks;
@@ -225,8 +228,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public List<Integer> getAllEpicSubtasks(int epicId) {
-        List<Integer> subtasks = super.getAllEpicSubtasks(epicId);
+    public List<Subtask> getAllEpicSubtasks(Epic epic) {
+        List<Subtask> subtasks = super.getAllEpicSubtasks(epic);
         save();
         return subtasks;
     }
