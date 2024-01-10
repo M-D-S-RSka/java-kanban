@@ -3,6 +3,7 @@ package manager;
 import tasks.*;
 
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     Integer createTask(Task task);
@@ -23,7 +24,7 @@ public interface TaskManager {
 
     void updateSubtask(Subtask subtask);
 
-    List<Subtask> getAllEpicSubtasks(Epic epic);
+    List<Subtask> getAllEpicSubtasks(int epicId);
 
     void deleteTaskById(int id);
 
@@ -44,4 +45,6 @@ public interface TaskManager {
     void deleteAllSubtask();
 
     List<Task> getHistory();
+
+    TreeSet<Task> getPrioritizedTasks();
 }

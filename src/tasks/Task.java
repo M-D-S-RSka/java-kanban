@@ -1,56 +1,107 @@
 package tasks;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.time.Duration;
 
-public class Task {
+import static tasks.Type.TASK;
+
+public class Task implements Comparable<Task> {
 
     protected Integer id;
     protected String name;
-    protected TaskStatus status;
+    protected Status status;
     protected String description;
-    protected Type type;
+    protected LocalDateTime startTime;
+    protected Duration duration;
 
-    public Task(String name, String description, TaskStatus statusOfTask, Integer taskId, Type type) {
+    public Task(Integer id, String name, String description, Status status) {
+        this.id = id;
         this.name = name;
-        this.status = statusOfTask;
         this.description = description;
-        this.id = taskId;
-        this.type = type;
+        this.status = status;
     }
 
-    public Task(String name, String description, TaskStatus statusOfTask, Type type) {
+    public Task(Integer id, String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+        this.id = id;
         this.name = name;
-        this.status = statusOfTask;
         this.description = description;
-        this.type = type;
+        this.status = status;
+        this.duration = Duration.ofMinutes(duration);
+        this.startTime = startTime;
+    }
+
+    public Task(String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.duration = Duration.ofMinutes(duration);
+        this.startTime = startTime;
+
+    }
+
+    public Task(String name, String description, Status status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
+    public int compareTo(Task o) {
+        if (this.getStartTime() == null) {
+            return 1;
         }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        Task task = (Task) object;
-        return Objects.equals(id, task.id) && Objects.equals(name, task.name)
-                && Objects.equals(description, task.description) && Objects.equals(status, task.status);
+        return this.getStartTime().compareTo(o.getStartTime());
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return startTime.plus(duration);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(name, task.name) && Objects.equals(description, task.description)
+                && Objects.equals(id, task.id) && status == task.status && Objects.equals(startTime, task.startTime)
+                && Objects.equals(duration, task.duration);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, id, status);
+        return Objects.hash(name, description, id, status, startTime, duration);
     }
 
     @Override
     public String toString() {
-        return "Task{" +
-                "name ='" + name + '\'' +
-                ", description ='" + description + '\'' +
-                ", id =" + id +
-                ", statusOfTask ='" + status + '\'' +
-                '}';
+        String result = "Task{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", status=" + status;
+        if (startTime != null) {
+            result = result + ", duration=" + duration.toMinutes() +
+                    ", startTime=" + startTime;
+        }
+        return result + '}';
     }
 
     public Integer getId() {
@@ -61,6 +112,10 @@ public class Task {
         this.id = id;
     }
 
+    public Integer getEpicId() {
+        return null;
+    }
+
     public String getName() {
         return name;
     }
@@ -69,11 +124,11 @@ public class Task {
         this.name = name;
     }
 
-    public TaskStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(TaskStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -86,11 +141,7 @@ public class Task {
     }
 
     public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
+        return TASK;
     }
 
     public String taskToString() {
