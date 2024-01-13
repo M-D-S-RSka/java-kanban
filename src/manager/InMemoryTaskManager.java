@@ -1,5 +1,6 @@
 package manager;
 
+import exception.TaskConflictException;
 import tasks.Epic;
 import tasks.Status;
 import tasks.Subtask;
@@ -344,10 +345,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public static class TaskConflictException extends RuntimeException {
-        public TaskConflictException(final String message) {
-            super(message);
-        }
-    }
+
 }
 
