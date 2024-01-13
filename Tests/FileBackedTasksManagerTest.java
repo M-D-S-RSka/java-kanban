@@ -1,5 +1,3 @@
-package Tests;
-
 import exception.ManagerSaveException;
 import manager.FileBackedTasksManager;
 import org.junit.jupiter.api.AfterEach;

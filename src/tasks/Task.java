@@ -1,5 +1,6 @@
 package tasks;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.time.Duration;
@@ -22,20 +23,20 @@ public class Task implements Comparable<Task> {
         this.status = status;
     }
 
-    public Task(Integer id, String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+    public Task(Integer id, String name, String description, Status status, Duration duration, LocalDateTime startTime) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
-        this.duration = Duration.ofMinutes(duration);
+        this.duration = duration;
         this.startTime = startTime;
     }
 
-    public Task(String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+    public Task(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.duration = Duration.ofMinutes(duration);
+        this.duration = duration;
         this.startTime = startTime;
 
     }
@@ -98,7 +99,7 @@ public class Task implements Comparable<Task> {
                 ", id=" + id +
                 ", status=" + status;
         if (startTime != null) {
-            result = result + ", duration=" + duration.toMinutes() +
+            result = result + ", duration=" + duration +
                     ", startTime=" + startTime;
         }
         return result + '}';

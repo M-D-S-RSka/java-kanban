@@ -1,5 +1,7 @@
 package tasks;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,13 +17,13 @@ public class Epic extends Task {
         super(id, name, description, status);
     }
 
-    public Epic(Integer id, String name, String description, Status status, Integer duration, LocalDateTime startTime,
+    public Epic(Integer id, String name, String description, Status status, Duration duration, LocalDateTime startTime,
                 LocalDateTime endTime) {
         super(id, name, description, status, duration, startTime);
         this.endTime = endTime;
     }
 
-    public Epic(String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+    public Epic(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
         super(name, description, status, duration, startTime);
     }
 
@@ -59,7 +61,7 @@ public class Epic extends Task {
         return subtaskIds;
     }
 
-    public void addSubtaskIds(Integer id) { // ложим id subtaska в лист subtaskIds
+    public void addSubtaskIds(Integer id) {
         subtaskIds.add(id);
     }
 
@@ -92,7 +94,7 @@ public class Epic extends Task {
         }
         if (startTime != null) {
             result = result +
-                    ", duration=" + duration.toMinutes() +
+                    ", duration=" + duration +
                     ", startTime=" + startTime;
         }
 

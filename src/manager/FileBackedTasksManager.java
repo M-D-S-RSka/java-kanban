@@ -3,6 +3,7 @@ package manager;
 import exception.ManagerSaveException;
 
 import java.io.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -41,12 +42,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     private String toStringTask(Task task) {
-        if (task.getStartTime() == null) {
+        if (task.getStartTime() == null || task.getStartTime().isEqual(LocalDateTime.MAX)) {
             return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
-                    + task.getDescription() + "," + task.getEpicId() + "\n";
+                    + task.getDescription() + "," + (task.getEpicId() == null ? "" : task.getEpicId()) + "\n";
         }
         return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
-                + task.getDescription() + "," + task.getEpicId() + "," + task.getDuration().toMinutes() + ","
+                + task.getDescription() + "," + (task.getEpicId() == null ? "" : task.getEpicId()) + ","
+                + (task.getDuration() == null ? "" : task.getDuration()).toString() + ","
                 + task.getStartTime() + ","
                 + task.getEndTime() + "\n";
     }
@@ -59,12 +61,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         Type type = Type.valueOf(taskArray[1]);
         Status status = Status.valueOf(taskArray[3]);
         String description = taskArray[4];
-        Integer duration = taskArray.length > 6 ? Integer.valueOf(taskArray[6]) : null;
         LocalDateTime startTime = taskArray.length > 6 ? LocalDateTime.parse(taskArray[7] + ","
-                + taskArray[8], formatter) : null;
-        LocalDateTime endTime = taskArray.length > 10 ? LocalDateTime.parse(taskArray[9]
-                + "," + taskArray[10], formatter) : null;
-
+                + taskArray[8], formatter) : LocalDateTime.MAX;
+        Duration duration;
+        LocalDateTime endTime;
+        if (startTime == null){
+            duration = null;
+            endTime = startTime;
+        } else if (startTime.isEqual(LocalDateTime.MAX)) {
+            duration = Duration.ofMinutes(0);
+            endTime = startTime;
+        } else {
+            duration = Duration.ofDays(taskArray.length > 6 ? Integer.valueOf(taskArray[6]) : null);
+            endTime = taskArray.length > 10 ? LocalDateTime.parse(taskArray[9]
+                    + "," + taskArray[10], formatter) : null;
+        }
         switch (type) {
             case TASK:
                 if (duration == null) {

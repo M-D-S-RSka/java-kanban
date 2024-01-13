@@ -3,7 +3,6 @@ package manager;
 import tasks.*;
 
 import java.util.List;
-import java.util.TreeSet;
 
 public interface TaskManager {
     Integer createTask(Task task);
@@ -46,5 +45,5 @@ public interface TaskManager {
 
     List<Task> getHistory();
 
-    TreeSet<Task> getPrioritizedTasks();
+    List<Task> getPrioritizedTasks();
 }

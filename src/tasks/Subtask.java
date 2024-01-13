@@ -1,5 +1,7 @@
 package tasks;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,13 +15,13 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
-    public Subtask(Integer id, String name, String description, Status status, int epicId, Integer duration,
+    public Subtask(Integer id, String name, String description, Status status, int epicId, Duration duration,
                    LocalDateTime startTime) {
         super(id, name, description, status, duration, startTime);
         this.epicId = epicId;
     }
 
-    public Subtask(String name, String description, Status status, int epicId, Integer duration,
+    public Subtask(String name, String description, Status status, int epicId, Duration duration,
                    LocalDateTime startTime) {
         super(name, description, status, duration, startTime);
         this.epicId = epicId;
@@ -34,7 +36,7 @@ public class Subtask extends Task {
         super(name, description, status);
     }
 
-    public Subtask(String name, String description, Status status, Integer duration, LocalDateTime startTime,
+    public Subtask(String name, String description, Status status, Duration duration, LocalDateTime startTime,
                    int epicId) {
         super(name, description, status, duration, startTime);
         this.epicId = epicId;
@@ -63,7 +65,7 @@ public class Subtask extends Task {
                 ", id=" + id +
                 ", status=" + status;
         if (startTime != null) {
-            result = result + ", duration=" + duration.toMinutes() +
+            result = result + ", duration=" + duration +
                     ", startTime=" + startTime;
         }
         return result + '}';
