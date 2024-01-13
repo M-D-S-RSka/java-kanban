@@ -1,6 +1,5 @@
 package tasks;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.time.Duration;
@@ -98,7 +97,7 @@ public class Task implements Comparable<Task> {
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status;
-        if (startTime != null) {
+        if (startTime != LocalDateTime.MAX) {
             result = result + ", duration=" + duration +
                     ", startTime=" + startTime;
         }

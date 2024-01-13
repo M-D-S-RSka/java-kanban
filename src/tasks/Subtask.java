@@ -1,7 +1,6 @@
 package tasks;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -64,7 +63,7 @@ public class Subtask extends Task {
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status;
-        if (startTime != null) {
+        if (startTime != LocalDateTime.MAX) {
             result = result + ", duration=" + duration +
                     ", startTime=" + startTime;
         }

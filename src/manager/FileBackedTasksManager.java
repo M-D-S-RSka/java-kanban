@@ -42,39 +42,33 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     private String toStringTask(Task task) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         if (task.getStartTime() == null || task.getStartTime().isEqual(LocalDateTime.MAX)) {
             return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
                     + task.getDescription() + "," + (task.getEpicId() == null ? "" : task.getEpicId()) + "\n";
         }
         return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
                 + task.getDescription() + "," + (task.getEpicId() == null ? "" : task.getEpicId()) + ","
-                + (task.getDuration() == null ? "" : task.getDuration()).toString() + ","
-                + task.getStartTime() + ","
-                + task.getEndTime() + "\n";
+                + (task.getDuration() == null ? "" : task.getDuration().getSeconds()/60) + ","
+                + task.getStartTime().format(formatter) + "\n";
     }
 
     private static Task fromString(String value) {
         String[] taskArray = value.split(",");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy,HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         int id = Integer.parseInt(taskArray[0]);
         String name = taskArray[2];
         Type type = Type.valueOf(taskArray[1]);
         Status status = Status.valueOf(taskArray[3]);
         String description = taskArray[4];
-        LocalDateTime startTime = taskArray.length > 6 ? LocalDateTime.parse(taskArray[7] + ","
-                + taskArray[8], formatter) : LocalDateTime.MAX;
+        LocalDateTime startTime = taskArray.length > 6 ? LocalDateTime.parse(taskArray[7], formatter) : LocalDateTime.MAX;
         Duration duration;
-        LocalDateTime endTime;
         if (startTime == null){
             duration = null;
-            endTime = startTime;
         } else if (startTime.isEqual(LocalDateTime.MAX)) {
             duration = Duration.ofMinutes(0);
-            endTime = startTime;
         } else {
-            duration = Duration.ofDays(taskArray.length > 6 ? Integer.valueOf(taskArray[6]) : null);
-            endTime = taskArray.length > 10 ? LocalDateTime.parse(taskArray[9]
-                    + "," + taskArray[10], formatter) : null;
+            duration = Duration.ofMinutes(taskArray.length > 6 ? Integer.valueOf(taskArray[6]) : null);
         }
         switch (type) {
             case TASK:
@@ -88,7 +82,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     return new Epic(id, name, description, status);
                 }
                 return new Epic(id, name, description, status, duration,
-                        startTime, endTime);
+                        startTime);
             case SUBTASK:
                 String epicIdString = taskArray[5];
                 if (duration == null) {
@@ -209,7 +203,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private static FileBackedTasksManager getFileBackedTasksManager(File file) {
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file.toString());
 
-        Task task1 = new Task(1, "Task #1", "description1", NEW);
+        Task task1 = new Task(1, "Task #1", "description1", NEW,
+                Duration.ofMinutes(15), LocalDateTime.now().plusHours(5));
         fileBackedTasksManager.createTask(task1);
         Task task2 = new Task(2, "Task #2", "description2", IN_PROGRESS);
         fileBackedTasksManager.createTask(task2);
@@ -219,7 +214,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         Epic epic2 = new Epic(4, "Epic #2", "description2", NEW);
         fileBackedTasksManager.createEpic(epic2);
 
-        Subtask subtask1 = new Subtask(5, "Subtask #1", "description1", NEW, epic1.getId());
+        Subtask subtask1 = new Subtask(5, "Subtask #1", "description1", NEW, epic1.getId(),
+                Duration.ofMinutes(10), LocalDateTime.now().plusHours(1));
         fileBackedTasksManager.createSubtask(subtask1);
         Subtask subtask2 = new Subtask(6, "Subtask #2", "description2", NEW, epic1.getId());
         fileBackedTasksManager.createSubtask(subtask2);

@@ -8,7 +8,6 @@ import tasks.Task;
 
 
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -46,11 +45,11 @@ class EpicTest {
         Epic epic = new Epic("Test createTask", "description", IN_PROGRESS);
         final int taskId = taskManager.createEpic(epic);
         Subtask subtask1 = new Subtask("subtask #1", "description1", NEW,
-                Duration.ofDays(60),LocalDateTime.now(), taskId);
+                Duration.ofMinutes(15),LocalDateTime.now().plusHours(1), taskId);
         Subtask subtask2 = new Subtask("subtask #2", "description2", IN_PROGRESS,
-                Duration.ofDays(60),LocalDateTime.now(), taskId);
+                Duration.ofMinutes(15),LocalDateTime.now().plusHours(3), taskId);
         Subtask subtask3 = new Subtask("subtask #3", "description3", DONE,
-                Duration.ofDays(60),LocalDateTime.now(), taskId);
+                Duration.ofMinutes(15),LocalDateTime.now(), taskId);
 
         taskManager.createSubtask(subtask1);
         taskManager.createSubtask(subtask2);
@@ -64,9 +63,9 @@ class EpicTest {
         final int taskId2 = taskManager.createEpic(epic2);
 
         Subtask subtask4 = new Subtask("subtask #4", "description4", NEW,
-                Duration.ofDays(60),LocalDateTime.now(), taskId2);
+                Duration.ofMinutes(15),LocalDateTime.now().plusMinutes(15), taskId2);
         Subtask subtask6 = new Subtask("subtask #6", "description6", IN_PROGRESS,
-                Duration.ofDays(60),LocalDateTime.now(), taskId2);
+                Duration.ofMinutes(15),LocalDateTime.now(), taskId2);
         taskManager.createSubtask(subtask4);
         taskManager.createSubtask(subtask6);
         assertEquals(NEW, epic2.getStatus());
@@ -86,9 +85,9 @@ class EpicTest {
         final int taskId2 = taskManager.createEpic(epic2);
 
         Subtask subtask4 = new Subtask("subtask #4", "description4", DONE,
-                Duration.ofDays(60),LocalDateTime.now(), taskId2);
+                Duration.ofMinutes(1),LocalDateTime.now(), taskId2);
         Subtask subtask6 = new Subtask("subtask #6", "description6", DONE,
-                Duration.ofDays(60),LocalDateTime.now(), taskId2);
+                Duration.ofDays(60),LocalDateTime.now().plusMinutes(20), taskId2);
         taskManager.createSubtask(subtask4);
         taskManager.createSubtask(subtask6);
         assertEquals(DONE, epic2.getStatus());
