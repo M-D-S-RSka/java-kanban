@@ -1,12 +1,15 @@
 package tasks;
 
+import utilities.Status;
+import utilities.Type;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.time.LocalDateTime;
 
-import static tasks.Type.EPIC;
+import static utilities.Type.EPIC;
 
 public class Epic extends Task {
     protected List<Integer> subtaskIds = new ArrayList<>();

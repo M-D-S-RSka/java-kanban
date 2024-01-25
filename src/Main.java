@@ -1,7 +1,7 @@
 import manager.*;
 import tasks.*;
 
-import static tasks.Status.*;
+import static utilities.Status.*;
 
 public class Main {
 

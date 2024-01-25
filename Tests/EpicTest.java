@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static tasks.Status.*;
-import static tasks.Type.*;
+import static utilities.Status.*;
+import static utilities.Type.*;
 
 class EpicTest {
     TaskManager taskManager;

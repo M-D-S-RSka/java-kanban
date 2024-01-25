@@ -1,4 +1,4 @@
-package tasks;
+package utilities;
 
 public enum Type {
     TASK("TASK"), SUBTASK("SUBTASK"), EPIC("EPIC");

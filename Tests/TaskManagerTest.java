@@ -1,14 +1,16 @@
 import manager.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tasks.*;
-import static tasks.Status.*;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static utilities.Status.*;
 
 // Приветствую! Была мысль написать что поправил, но надолго растянулось выполнение ( сломал код, весь перелопатил
 // дебагером, в итоге решил многое написать заново/исправить). Поэтому извиняюсь, если будут сложности с проверкой из-за

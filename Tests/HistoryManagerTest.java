@@ -10,7 +10,7 @@ import tasks.Task;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static tasks.Status.NEW;
+import static utilities.Status.NEW;
 
 class HistoryManagerTest {
     HistoryManager historyManager;

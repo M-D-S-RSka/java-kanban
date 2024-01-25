@@ -1,10 +1,13 @@
 package tasks;
 
+import utilities.Status;
+import utilities.Type;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.time.Duration;
 
-import static tasks.Type.TASK;
+import static utilities.Type.TASK;
 
 public class Task implements Comparable<Task> {
 
@@ -145,6 +148,15 @@ public class Task implements Comparable<Task> {
     }
 
     public String taskToString() {
-        return getName() + ", " + getDescription() + ", " + getId() + ", " + getStatus() + ", " + getType();
+        String result = "Task{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", status=" + status;
+        if (startTime != LocalDateTime.MAX) {
+            result = result + ", duration=" + duration +
+                    ", startTime=" + startTime;
+        }
+        return result + '}';
     }
 }

@@ -1,23 +1,31 @@
 package manager;
 
 import exception.ManagerSaveException;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
+import utilities.Status;
+import utilities.Type;
 
 import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import tasks.*;
-
-import static tasks.Status.*;
+import static utilities.Status.*;
 
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private static String path;
 
     public FileBackedTasksManager(String path) {
-        FileBackedTasksManager.path = path;
+        this.path = path;
+    }
+
+    public FileBackedTasksManager() {
+
     }
 
     protected void save() {

@@ -2,7 +2,7 @@ package manager;
 
 import exception.TaskConflictException;
 import tasks.Epic;
-import tasks.Status;
+import utilities.Status;
 import tasks.Subtask;
 import tasks.Task;
 
@@ -17,18 +17,27 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static tasks.Status.IN_PROGRESS;
-import static tasks.Status.NEW;
+import static utilities.Status.IN_PROGRESS;
+import static utilities.Status.NEW;
 
 
 public class InMemoryTaskManager implements TaskManager {
-    protected final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected final HistoryManager historyManager;
     protected final Map<Integer, Task> tasks = new HashMap<>();
     protected final Map<Integer, Epic> epics = new HashMap<>();
     protected final Map<Integer, Subtask> subtasks = new HashMap<>();
     protected final Set<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
     protected Integer generatedTaskId = 0;
+    protected int id;
 
+    public InMemoryTaskManager() {
+        id = 0;
+        historyManager = Managers.getDefaultHistory();
+    }
+
+    public InMemoryTaskManager(HistoryManager historyManager) {
+        this.historyManager = historyManager;
+    }
     @Override
     public List<Task> getPrioritizedTasks() {
         return new ArrayList<>(prioritizedTasks);
