@@ -8,6 +8,7 @@ import server.KVServer;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
+import utilities.CreateGson;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,25 +19,13 @@ import java.net.http.HttpResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utilities.Status.NEW;
 
-//Привет! Тут проблема, я просидел с ней весь день: если запускать тесты по отдельности в этом классе -
-//все в порядке, а зпустить целиком класс - проблемы начинаются в тесте addTasksToTaskServerEndUpdate,
-//насколько я понимаю по дебаггеру - у меня что-то с айдишками начинает происходить при обновлении (он их плюсует,
-//а после похоже минусует, из-за этого берется не та задача и сооветственно проверка по коду падает),запутался.
-//        Окончательно добил факт, что отдельно запускать тесты - все работает.
-
-//Понимаю, что некорректно отправлять с возможными ошибками, в пачке одногруппники и наставник молчат пол-дня,
-//жесткий дедлайн был в пятницу, мне куратор дал время на сдачу до понедельника, поэтому надеюсь, что получится пойти
-//навстречу, ткнуть конкретно что не так или же поплыла голова в спешке...
-// в taskHandler на 87 и 88 строке и в этом классе на 109-110 - последствия решения проблемы, попытка обойти ошибку
-// с объяснениями что делал.
-
 class HttpTaskServerTest {
     private static final String TASK_BASE_URL = "http://localhost:8080/tasks/task/";
     private static final String EPIC_BASE_URL = "http://localhost:8080/tasks/epic/";
     private static final String SUBTASK_BASE_URL = "http://localhost:8080/tasks/subtask/";
     private static KVServer kvServer;
     private static HttpTaskServer httpTS;
-    private static Gson gson;
+    private static Gson gson = CreateGson.getGson();
 
     protected Task task = createTask();
     protected Epic epic = createEpic();
@@ -108,9 +97,6 @@ class HttpTaskServerTest {
         Task task1 = addTaskServer();
         URI url = URI.create(TASK_BASE_URL);
         assertEquals(201, postTask(url, task1, client).statusCode(), "Ошибка в добавлении новой задачи");
-
-//        task1.setId(4); - по факту в логах из хэндлера(87 строка в TaskHandler) пишет 5, а по факту присваивает 4,
-//        с этой строкой тогда падаю уже на 124 строке, такая же манипуляция с эпикхэндлер не работает, тоже 0 идей((
 
         String json = gson.toJson(task1);
         HttpRequest.BodyPublisher body = HttpRequest.BodyPublishers.ofString(json);

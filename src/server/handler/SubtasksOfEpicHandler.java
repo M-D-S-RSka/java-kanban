@@ -1,10 +1,11 @@
-package server.Handler;
+package server.handler;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import manager.TaskManager;
 import tasks.Epic;
+import utilities.CreateGson;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 public class SubtasksOfEpicHandler implements HttpHandler {
     TaskManager taskManager;
-    private final Gson gson = new Gson();
+    private final Gson gson = CreateGson.getGson();
     String response;
 
     public SubtasksOfEpicHandler(TaskManager newTaskManager) {

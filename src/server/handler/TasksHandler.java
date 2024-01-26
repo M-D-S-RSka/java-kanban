@@ -1,20 +1,21 @@
-package server.Handler;
+package server.handler;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import manager.TaskManager;
+import utilities.CreateGson;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class HistoryHandler implements HttpHandler {
+public class TasksHandler implements HttpHandler {
     TaskManager taskManager;
-    private final Gson gson = new Gson();
+    private final Gson gson = CreateGson.getGson();
     String response;
 
-    public HistoryHandler(TaskManager newTaskManager) {
+    public TasksHandler(TaskManager newTaskManager) {
         this.taskManager = newTaskManager;
     }
 
@@ -22,17 +23,17 @@ public class HistoryHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
         if (method.equals("GET")) {
-            getHistoryList(exchange);
+            getAllTask(exchange);
         } else {
             writeResponse(exchange, "Данной операции нет.", 404);
         }
     }
 
-    private void getHistoryList(HttpExchange exchange) throws IOException {
-        if (taskManager.getHistory().isEmpty()) {
-            writeResponse(exchange, "История пуста.", 200);
+    private void getAllTask(HttpExchange exchange) throws IOException {
+        if (taskManager.getPrioritizedTasks().isEmpty()) {
+            writeResponse(exchange, "Список задач пустой.", 200);
         } else {
-            response = gson.toJson(taskManager.getHistory());
+            response = gson.toJson(taskManager.getPrioritizedTasks());
             writeResponse(exchange, response, 200);
         }
     }
